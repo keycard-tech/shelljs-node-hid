@@ -1,7 +1,7 @@
 {
   "name": "kprojs-node-hid",
   "version": "1.0.0",
-  "description": "Keycard Pro Hardware Wallet Node HID Library",
+  "description": "Keycard Pro Hardware Wallet Node implementation of the communication layer based on Ledger Transport Node HID Singleton",
   "main": "lib/index.js",
   "module": "lib-es/index.js",
   "types": "lib/index.d.ts",
@@ -13,7 +13,7 @@
   },
   "author": "",
   "dependencies": {
-    "kprojs": "../kprojs",
+    "kprojs": "github:choppu/kprojs",
     "node-hid": "^2.1.2",
     "usb": "^2.10.0"
   },
