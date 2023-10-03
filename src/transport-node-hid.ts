@@ -26,9 +26,11 @@ const setDisconnectTimeout = () => {
 /**
  * node-hid Transport implementation
  * @example
- * import TransportNodeHid from "";
- * ...
- * TransportNodeHid.create().then(transport => ...)
+ import KProJSNodeHID from "kprojs-node-hid";
+ ...
+ let transport: any;
+ transport = await KProJSNodeHID.create();
+...
  */
 
 export default class TransportNodeHidSingleton extends TransportNodeHidNoEvents {

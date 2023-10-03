@@ -9,11 +9,7 @@ export function getDevices(): (Device & { deviceName?: string })[] {
 }
 
 /**
- * node-hid Transport minimal implementation
- * @example
- * import TransportNodeHid from "transport-node-hid-noevents";
- * ...
- * TransportNodeHid.create().then(transport => ...)
+ *
  */
 
 export default class TransportNodeHidNoEvents extends KProJS.Transport {

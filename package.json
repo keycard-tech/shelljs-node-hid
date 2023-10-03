@@ -7,8 +7,9 @@
   "types": "lib/index.d.ts",
   "license": "Apache-2.0",
   "scripts": {
-    "clean": "rimraf lib lib-es",
     "build": "tsc && tsc -m ES6 --outDir lib-es",
+    "prepare": "npm run build",
+    "clean": "rimraf lib lib-es",
     "test": "jest"
   },
   "author": "",
