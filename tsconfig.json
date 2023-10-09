@@ -13,7 +13,9 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "target": "ES2019",
+    "module": "CommonJS"
   },
   "include": [
     "src/**/*.ts"
