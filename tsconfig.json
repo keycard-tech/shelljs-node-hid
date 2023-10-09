@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "outDir": "lib",
-    "lib": ["ES2017", "dom"],
+    "lib": ["ES2017", "dom", "ES6"],
     "sourceMap": true,
     "declaration": true,
     "allowSyntheticDefaultImports": true,
@@ -13,8 +13,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "downlevelIteration": true,
-    "target": "ES6"
+    "downlevelIteration": true
   },
   "include": [
     "src/**/*.ts"

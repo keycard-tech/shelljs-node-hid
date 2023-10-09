@@ -1,11 +1,9 @@
 import HID, { Device } from "node-hid";
 import KProJS from "kprojs";
-import type { DeviceTypes, TransportTypes } from "kprojs";
-
-const filterInterface = (device: any) => ["win32", "darwin"].includes(process.platform) ? device.usagePage === 0xffa0 : device.interface === 0;
+import type { DeviceTypes, LogsTypes, TransportTypes } from "kprojs";
 
 export function getDevices(): (Device & { deviceName?: string })[] {
-  return HID.devices(KProJS.HIDFraming.kproUSBVendorId, 0x0).filter(filterInterface);
+  return HID.devices(KProJS.HIDFraming.kproUSBVendorId, 0);
 }
 
 /**
@@ -13,20 +11,6 @@ export function getDevices(): (Device & { deviceName?: string })[] {
  */
 
 export default class TransportNodeHidNoEvents extends KProJS.Transport {
-  device: HID.HID;
-  deviceModel: DeviceTypes.DeviceModel | null | undefined;
-  channel = Math.floor(Math.random() * 0xffff);
-  packetSize = 64;
-  disconnected = false;
-
-  constructor(device: HID.HID) {
-    super();
-    this.device = device;
-    // @ts-expect-error accessing low level API in C
-    const info = device.getDeviceInfo();
-    this.deviceModel = info && info.product ? KProJS.KProDevice.identifyProductName(info.product) : null;
-  }
-
   /**
    *
    */
@@ -65,9 +49,23 @@ export default class TransportNodeHidNoEvents extends KProJS.Transport {
       }
 
       const device = getDevices()[0];
+
       if (!device) throw new KProJS.KProError.TransportError("NoDevice", "NoDevice");
       return new TransportNodeHidNoEvents(new HID.HID(device.path as string));
     });
+  }
+
+  device: HID.HID;
+  deviceModel: DeviceTypes.DeviceModel | null | undefined;
+  channel = Math.floor(Math.random() * 0xffff);
+  packetSize = 64;
+  disconnected = false;
+
+  constructor(device: HID.HID, { context, logType }: { context?: LogsTypes.TraceContext; logType?: LogsTypes.LogType } = {}) {super({ context, logType });
+    this.device = device;
+    // @ts-expect-error accessing low level API in C
+    const info = device.getDeviceInfo();
+    this.deviceModel = info && info.product ? KProJS.KProDevice.identifyProductName(info.product) : null;
   }
 
   setDisconnected = () => {

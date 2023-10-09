@@ -14,7 +14,7 @@
   },
   "author": "",
   "dependencies": {
-    "kprojs": "github:choppu/kprojs",
+    "kprojs": "file:../kprojs",
     "node-hid": "^2.1.2",
     "usb": "^2.10.0"
   },
