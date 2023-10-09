@@ -10,6 +10,6 @@ KProJS Node HID is based on [@ledgerhq/hw-transport-node-hid](@ledgerhq/hw-trans
 import KProJSNodeHID from "kprojs-node-hid";
 ...
 let transport: any;
-transport = await KProJSNodeHID.create();
+transport = await KProJSNodeHID.TransportNodeHid.default.create();
 ...
 ```
