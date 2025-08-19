@@ -1,16 +1,16 @@
 import HID, { Device } from "node-hid";
-import KProJS from "kprojs";
-import type { DeviceTypes, LogsTypes, TransportTypes } from "kprojs";
+import ShellJS from "shelljs";
+import type { DeviceTypes, LogsTypes, TransportTypes } from "shelljs";
 
 export function getDevices(): (Device & { deviceName?: string })[] {
-  return HID.devices(KProJS.HIDFraming.kproUSBVendorId, 0);
+  return HID.devices(ShellJS.HIDFraming.shellUSBVendorId, 0);
 }
 
 /**
  *
  */
 
-export default class TransportNodeHidNoEvents extends KProJS.Transport {
+export default class TransportNodeHidNoEvents extends ShellJS.Transport {
   /**
    *
    */
@@ -25,7 +25,7 @@ export default class TransportNodeHidNoEvents extends KProJS.Transport {
    */
   static listen = (observer: TransportTypes.Observer<TransportTypes.DescriptorEvent<any>>): TransportTypes.Subscription => {
     getDevices().forEach(device => {
-      const deviceModel = KProJS.KProDevice.identifyUSBProductId(device.productId);
+      const deviceModel = ShellJS.ShellDevice.identifyUSBProductId(device.productId);
       observer.next({
         type: "add",
         descriptor: device.path,
@@ -50,7 +50,7 @@ export default class TransportNodeHidNoEvents extends KProJS.Transport {
 
       const device = getDevices()[0];
 
-      if (!device) throw new KProJS.KProError.TransportError("NoDevice", "NoDevice");
+      if (!device) throw new ShellJS.ShellError.TransportError("NoDevice", "NoDevice");
       return new TransportNodeHidNoEvents(new HID.HID(device.path as string));
     });
   }
@@ -65,7 +65,7 @@ export default class TransportNodeHidNoEvents extends KProJS.Transport {
     this.device = device;
     // @ts-expect-error accessing low level API in C
     const info = device.getDeviceInfo();
-    this.deviceModel = info && info.product ? KProJS.KProDevice.identifyProductName(info.product) : null;
+    this.deviceModel = info && info.product ? ShellJS.ShellDevice.identifyProductName(info.product) : null;
   }
 
   setDisconnected = () => {
@@ -86,9 +86,9 @@ export default class TransportNodeHidNoEvents extends KProJS.Transport {
       this.device.write(data);
       return Promise.resolve();
     } catch (e: any) {
-      const maybeMappedError = e && e.message ? new KProJS.KProError.DisconnectedDeviceDuringOperation(e.message) : e;
+      const maybeMappedError = e && e.message ? new ShellJS.ShellError.DisconnectedDeviceDuringOperation(e.message) : e;
 
-      if (maybeMappedError instanceof KProJS.KProError.DisconnectedDeviceDuringOperation) {
+      if (maybeMappedError instanceof ShellJS.ShellError.DisconnectedDeviceDuringOperation) {
         this.setDisconnected();
       }
 
@@ -100,12 +100,12 @@ export default class TransportNodeHidNoEvents extends KProJS.Transport {
     return new Promise((resolve, reject) =>
       this.device.read((e, res) => {
         if (!res) {
-          return reject(new KProJS.KProError.DisconnectedDevice());
+          return reject(new ShellJS.ShellError.DisconnectedDevice());
         }
 
         if (e) {
-          const maybeMappedError = e && e.message ? new KProJS.KProError.DisconnectedDeviceDuringOperation(e.message) : e;
-          if (maybeMappedError instanceof KProJS.KProError.DisconnectedDeviceDuringOperation) {
+          const maybeMappedError = e && e.message ? new ShellJS.ShellError.DisconnectedDeviceDuringOperation(e.message) : e;
+          if (maybeMappedError instanceof ShellJS.ShellError.DisconnectedDeviceDuringOperation) {
             this.setDisconnected();
           }
 
@@ -126,8 +126,8 @@ export default class TransportNodeHidNoEvents extends KProJS.Transport {
   async exchange(apdu: Buffer): Promise<Buffer> {
     const b = await this.exchangeAtomicImpl(async () => {
       const { channel, packetSize } = this;
-      KProJS.KProLogs.log("apdu", "=> " + apdu.toString("hex"));
-      const framing = KProJS.HIDFraming.hidFraming(channel, packetSize);
+      ShellJS.ShellLogs.log("apdu", "=> " + apdu.toString("hex"));
+      const framing = ShellJS.HIDFraming.hidFraming(channel, packetSize);
       // Write...
       const blocks = framing.makeBlocks(apdu);
 
@@ -144,7 +144,7 @@ export default class TransportNodeHidNoEvents extends KProJS.Transport {
         acc = framing.reduceResponse(acc, buffer);
       }
 
-      KProJS.KProLogs.log("apdu", "<= " + result.toString("hex"));
+      ShellJS.ShellLogs.log("apdu", "<= " + result.toString("hex"));
       return result;
     });
 

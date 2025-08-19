@@ -1,6 +1,6 @@
 import { usb } from "usb";
-import type { DeviceTypes } from "kprojs";
-import KProJS from "kprojs";
+import type { DeviceTypes } from "shelljs";
+import ShellJS from "shelljs";
 
 const deviceToLog = ({ deviceDescriptor: { idProduct }, busNumber, deviceAddress }: {deviceDescriptor: any, idProduct: any; busNumber: any, deviceAddress: any }) =>
   `productId=${idProduct} busNumber=${busNumber} deviceAddress=${deviceAddress}`;
@@ -29,8 +29,8 @@ export const listenDevices = (onAdd: (arg0: DeviceTypes.Device) => void, onRemov
   let timeout: any;
 
   const add = (device: any) => {
-    if (device.deviceDescriptor.idVendor !== KProJS.HIDFraming.kproUSBVendorId) return;
-    KProJS.KProLogs.log("usb-detection", "add: " + deviceToLog(device));
+    if (device.deviceDescriptor.idVendor !== ShellJS.HIDFraming.shellUSBVendorId) return;
+    ShellJS.ShellLogs.log("usb-detection", "add: " + deviceToLog(device));
 
     if (!timeout) {
       // a time is needed for the device to actually be connectable over HID..
@@ -43,8 +43,8 @@ export const listenDevices = (onAdd: (arg0: DeviceTypes.Device) => void, onRemov
   };
 
   const remove = (device: any) => {
-    if (device.deviceDescriptor.idVendor !== KProJS.HIDFraming.kproUSBVendorId) return;
-    KProJS.KProLogs.log("usb-detection", "remove: " + deviceToLog(device));
+    if (device.deviceDescriptor.idVendor !== ShellJS.HIDFraming.shellUSBVendorId) return;
+    ShellJS.ShellLogs.log("usb-detection", "remove: " + deviceToLog(device));
 
     if (timeout) {
       clearTimeout(timeout);

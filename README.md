@@ -1,15 +1,15 @@
-## KProJS Node HID
+## ShellJS Node HID
 
-KProJS Node HID is based on [@ledgerhq/hw-transport-node-hid](@ledgerhq/hw-transport-node-hid) and allows to communicate with Keycard Pro using usb HID.
+ShellJS Node HID is based on [@ledgerhq/hw-transport-node-hid](@ledgerhq/hw-transport-node-hid) and allows to communicate with Keycard Pro using usb HID.
 
 **\[Node]**/Electron **(HID)** – uses `node-hid` and `usb`.
 
 #### Usage example
 
 ```typescript
-import KProJSNodeHID from "kprojs-node-hid";
+import ShellJSNodeHID from "shelljs-node-hid";
 ...
 let transport: any;
-transport = await KProJSNodeHID.TransportNodeHid.default.create();
+transport = await ShellJSNodeHID.TransportNodeHid.default.create();
 ...
 ```

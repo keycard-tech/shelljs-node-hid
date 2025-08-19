@@ -1,7 +1,7 @@
 import HID from "node-hid";
-import KProJS from "kprojs"
+import ShellJS from "shelljs"
 import TransportNodeHidNoEvents, { getDevices } from "./transport-node-hid-noevents";
-import type { TransportTypes, HIDTypes } from "kprojs";
+import type { TransportTypes, HIDTypes } from "shelljs";
 import { listenDevices } from "./listen-devices";
 
 const DISCONNECT_TIMEOUT = 5000;
@@ -26,10 +26,10 @@ const setDisconnectTimeout = () => {
 /**
  * node-hid Transport implementation
  * @example
- import KProJSNodeHID from "kprojs-node-hid";
+ import ShellJSNodeHID from "shelljs-node-hid";
  ...
  let transport: any;
- transport = await KProJSNodeHID.create();
+ transport = await ShellJSNodeHID.create();
 ...
  */
 
@@ -53,7 +53,7 @@ export default class TransportNodeHidSingleton extends TransportNodeHidNoEvents 
       // this needs to run asynchronously so the subscription is defined during this phase
       for (const device of devices) {
         if (!unsubscribed) {
-          const deviceModel = KProJS.KProDevice.identifyUSBProductId(device.productId);
+          const deviceModel = ShellJS.ShellDevice.identifyUSBProductId(device.productId);
           observer.next({
             type: "add",
             descriptor: "",
@@ -67,7 +67,7 @@ export default class TransportNodeHidSingleton extends TransportNodeHidNoEvents 
     });
 
     const onAdd = (device: any) => {
-      const deviceModel = KProJS.KProDevice.identifyUSBProductId(device.productId);
+      const deviceModel = ShellJS.ShellDevice.identifyUSBProductId(device.productId);
       observer.next({
         type: "add",
         descriptor: "",
@@ -79,7 +79,7 @@ export default class TransportNodeHidSingleton extends TransportNodeHidNoEvents 
     };
 
     const onRemove = (device: any) => {
-      const deviceModel = KProJS.KProDevice.identifyUSBProductId(device.productId);
+      const deviceModel = ShellJS.ShellDevice.identifyUSBProductId(device.productId);
       observer.next({
         type: "remove",
         descriptor: "",
@@ -107,7 +107,7 @@ export default class TransportNodeHidSingleton extends TransportNodeHidNoEvents 
    */
   static async autoDisconnect(): Promise<void> {
     if (transportInstance && !transportInstance.preventAutoDisconnect) {
-      KProJS.KProLogs.log("hid-verbose", "triggering auto disconnect");
+      ShellJS.ShellLogs.log("hid-verbose", "triggering auto disconnect");
       TransportNodeHidSingleton.disconnect();
     } else if (transportInstance) {
       // If we have disabled the auto-disconnect, try again in DISCONNECT_TIMEOUT
@@ -135,13 +135,13 @@ export default class TransportNodeHidSingleton extends TransportNodeHidNoEvents 
     clearDisconnectTimeout();
     return Promise.resolve().then(() => {
       if (transportInstance) {
-        KProJS.KProLogs.log("hid-verbose", "reusing opened transport instance");
+        ShellJS.ShellLogs.log("hid-verbose", "reusing opened transport instance");
         return transportInstance;
       }
 
       const device = getDevices()[0];
-      if (!device) throw new KProJS.KProError.CantOpenDevice("no device found");
-      KProJS.KProLogs.log("hid-verbose", "new HID transport");
+      if (!device) throw new ShellJS.ShellError.CantOpenDevice("no device found");
+      ShellJS.ShellLogs.log("hid-verbose", "new HID transport");
       transportInstance = new TransportNodeHidSingleton(new HID.HID(device.path as string));
       const unlisten = listenDevices(
         () => {},
@@ -155,7 +155,7 @@ export default class TransportNodeHidSingleton extends TransportNodeHidNoEvents 
 
       const onDisconnect = () => {
         if (!transportInstance) return;
-        KProJS.KProLogs.log("hid-verbose", "transport instance was disconnected");
+        ShellJS.ShellLogs.log("hid-verbose", "transport instance was disconnected");
         transportInstance.off("disconnect", onDisconnect);
         transportInstance = null;
         unlisten();
