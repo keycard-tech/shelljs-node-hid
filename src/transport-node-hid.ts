@@ -1,7 +1,7 @@
 import HID from "node-hid";
-import ShellJS from "shelljs"
+import ShellJS from "@choppu/shelljs"
 import TransportNodeHidNoEvents, { getDevices } from "./transport-node-hid-noevents";
-import type { TransportTypes, HIDTypes } from "shelljs";
+import type { TransportTypes, HIDTypes } from "@choppu/shelljs";
 import { listenDevices } from "./listen-devices";
 
 const DISCONNECT_TIMEOUT = 5000;

@@ -1,6 +1,6 @@
 import { usb } from "usb";
-import type { DeviceTypes } from "shelljs";
-import ShellJS from "shelljs";
+import type { DeviceTypes } from "@choppu/shelljs";
+import ShellJS from "@choppu/shelljs";
 
 const deviceToLog = ({ deviceDescriptor: { idProduct }, busNumber, deviceAddress }: {deviceDescriptor: any, idProduct: any; busNumber: any, deviceAddress: any }) =>
   `productId=${idProduct} busNumber=${busNumber} deviceAddress=${deviceAddress}`;

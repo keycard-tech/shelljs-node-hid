@@ -1,6 +1,6 @@
 import HID, { Device } from "node-hid";
-import ShellJS from "shelljs";
-import type { DeviceTypes, LogsTypes, TransportTypes } from "shelljs";
+import ShellJS from "@choppu/shelljs";
+import type { DeviceTypes, LogsTypes, TransportTypes } from "@choppu/shelljs";
 
 export function getDevices(): (Device & { deviceName?: string })[] {
   return HID.devices(ShellJS.HIDFraming.shellUSBVendorId, 0);
