@@ -1,8 +1,14 @@
 ## ShellJS Node HID
 
-ShellJS Node HID is based on [@ledgerhq/hw-transport-node-hid](@ledgerhq/hw-transport-node-hid) and allows to communicate with Keycard Pro using usb HID.
+ShellJS Node HID is a Keycard Shell Node implementation of the communication layer.
 
 **\[Node]**/Electron **(HID)** – uses `node-hid` and `usb`.
+
+#### Installation
+```
+npm install @choppu/shelljs-node-hid
+```
+
 
 #### Usage example
 
