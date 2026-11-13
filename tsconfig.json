@@ -1,23 +1,33 @@
 {
   "compilerOptions": {
     "outDir": "lib",
-    "lib": ["ES2017", "dom", "ES6"],
-    "sourceMap": true,
-    "declaration": true,
-    "allowSyntheticDefaultImports": true,
+    "rootDir": "src",
+    "target": "es2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "module": "node20",
+    "moduleResolution": "node16",
+    "useDefineForClassFields": false,
     "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "isolatedModules": true,
-    "moduleResolution": "node",
-    "pretty": true,
     "resolveJsonModule": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "declaration": true,
+    "forceConsistentCasingInFileNames": true,
+    "pretty": true,
     "skipLibCheck": true,
     "strict": true,
-    "downlevelIteration": true,
-    "target": "ES2019",
-    "module": "CommonJS"
+    "noImplicitReturns": true,
+    "noUncheckedIndexedAccess": false,
+    "noUnusedLocals": true,
+    "allowImportingTsExtensions": true,
+    "rewriteRelativeImportExtensions": true,
+    "isolatedModules": true,
+    "types": ["node", "w3c-web-usb"]
   },
   "include": [
     "src/**/*.ts"
   ],
+  "exclude": [
+    "node_modules"
+  ]
 }

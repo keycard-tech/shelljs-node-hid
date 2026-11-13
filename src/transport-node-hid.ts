@@ -26,27 +26,19 @@ const setDisconnectTimeout = () => {
 /**
  * node-hid Transport implementation
  * @example
- import ShellJSNodeHID from "shelljs-node-hid";
+ import ShellJSNodeHID from "@choppu/shelljs-node-hid";
  ...
  let transport: any;
- transport = await ShellJSNodeHID.create();
+ transport = await ShellJSNodeHID.TransportNodeHid.default.create();
 ...
  */
 
 export default class TransportNodeHidSingleton extends TransportNodeHidNoEvents {
   preventAutoDisconnect = false;
-  /**
-   *
-   */
   static isSupported = TransportNodeHidNoEvents.isSupported;
 
-  /**
-   *
-   */
   static list = TransportNodeHidNoEvents.list;
 
-  /**
-   */
   static listen = (observer: TransportTypes.Observer<HIDTypes.ListenDescriptorEvent>): TransportTypes.Subscription => {
     let unsubscribed: any;
     Promise.resolve(getDevices()).then((devices: any) => {
@@ -102,9 +94,7 @@ export default class TransportNodeHidSingleton extends TransportNodeHidNoEvents 
     };
   };
 
-  /**
-   * convenience wrapper for auto-disconnect logic
-   */
+  //convenience wrapper for auto-disconnect logic
   static async autoDisconnect(): Promise<void> {
     if (transportInstance && !transportInstance.preventAutoDisconnect) {
       ShellJS.ShellLogs.log("hid-verbose", "triggering auto disconnect");
@@ -116,9 +106,7 @@ export default class TransportNodeHidSingleton extends TransportNodeHidNoEvents 
     }
   }
 
-  /**
-   * globally disconnect the transport singleton
-   */
+  //globally disconnect the transport singleton
   static async disconnect() {
     if (transportInstance) {
       transportInstance.device.close();
@@ -128,9 +116,7 @@ export default class TransportNodeHidSingleton extends TransportNodeHidNoEvents 
     clearDisconnectTimeout();
   }
 
-  /**
-   * if path="" is not provided, the library will take the first device
-   */
+  //if path="" is not provided, the library will take the first device
   static open(): Promise<TransportNodeHidSingleton> {
     clearDisconnectTimeout();
     return Promise.resolve().then(() => {
@@ -183,8 +169,7 @@ export default class TransportNodeHidSingleton extends TransportNodeHidNoEvents 
   }
 
   close(): Promise<void> {
-    // intentionally, a close will not effectively close the hid connection but
-    // will allow an auto-disconnection after some inactivity
+    // a close only permits the auto-disconnection, it leaves the HID connection open
     this.preventAutoDisconnect = false;
     return Promise.resolve();
   }

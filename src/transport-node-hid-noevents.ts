@@ -6,23 +6,11 @@ export function getDevices(): (Device & { deviceName?: string })[] {
   return HID.devices(ShellJS.HIDFraming.shellUSBVendorId, 0);
 }
 
-/**
- *
- */
-
 export default class TransportNodeHidNoEvents extends ShellJS.Transport {
-  /**
-   *
-   */
   static isSupported = (): Promise<boolean> => Promise.resolve(typeof HID.HID === "function");
 
-  /**
-   *
-   */
   static list = (): Promise<any> => Promise.resolve(getDevices().map(d => d.path));
 
-  /**
-   */
   static listen = (observer: TransportTypes.Observer<TransportTypes.DescriptorEvent<any>>): TransportTypes.Subscription => {
     getDevices().forEach(device => {
       const deviceModel = ShellJS.ShellDevice.identifyUSBProductId(device.productId);
@@ -39,9 +27,7 @@ export default class TransportNodeHidNoEvents extends ShellJS.Transport {
     };
   };
 
-  /**
-   * if path="" is not provided, the library will take the first device
-   */
+  //if path="" is not provided, the library will take the first device
   static open(path: string | null | undefined) {
     return Promise.resolve().then(() => {
       if (path) {
@@ -63,7 +49,6 @@ export default class TransportNodeHidNoEvents extends ShellJS.Transport {
 
   constructor(device: HID.HID, { context, logType }: { context?: LogsTypes.TraceContext; logType?: LogsTypes.LogType } = {}) {super({ context, logType });
     this.device = device;
-    // @ts-expect-error accessing low level API in C
     const info = device.getDeviceInfo();
     this.deviceModel = info && info.product ? ShellJS.ShellDevice.identifyProductName(info.product) : null;
   }
@@ -151,9 +136,7 @@ export default class TransportNodeHidNoEvents extends ShellJS.Transport {
     return b as Buffer;
   }
 
-  /**
-   * release the USB device.
-   */
+  //release the USB device.
   async close(): Promise<void> {
     await this.exchangeBusyPromise;
     this.device.close();

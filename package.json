@@ -1,6 +1,6 @@
 {
   "name": "@choppu/shelljs-node-hid",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Keycard Shell Node implementation of the communication layer",
   "main": "lib/index.js",
   "module": "lib-es/index.js",
@@ -10,23 +10,20 @@
   },
   "license": "Apache-2.0",
   "scripts": {
-    "build": "tsc && tsc -m ES6 --outDir lib-es",
+    "build": "tsc -p tsconfig.json && tsc -p tsconfig.esm.json",
     "prepare": "npm run build",
     "clean": "rm -rf lib lib-es",
     "publish": "npm run clean && npm run build && npm publish --access=public"
   },
   "author": "Ksenia Lebedeva",
   "dependencies": {
-    "@choppu/shelljs": "^1.0.1",
-    "node-hid": "^2.1.2",
-    "usb": "^2.10.0"
+    "@choppu/shelljs": "^2.0.0",
+    "node-hid": "^3.4.0",
+    "usb": "^3.3.0"
   },
   "devDependencies": {
-    "@types/node": "^20.5.9",
-    "@types/node-hid": "^1.3.1",
-    "@types/w3c-web-hid": "^1.0.3",
-    "rimraf": "^5.0.1",
-    "source-map-support": "^0.5.21",
-    "ts-node": "^10.9.1"
+    "@types/node": "^26.6.6",
+    "@types/w3c-web-usb": "^1.0.14",
+    "typescript": "^6.0.3"
   }
 }
